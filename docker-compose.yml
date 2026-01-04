@@ -1,0 +1,13 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: banco-de-dados
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: barber
+    ports:
+      - "5432:5432"
+    volumes:
+      - banco-de-dados:/var/lib/postgresql/data
+volumes:
+  banco-de-dados:

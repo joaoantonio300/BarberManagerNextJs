@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+
+model User {
+  id            String         @id @default(uuid())
+  name          String
+  email         String         @unique
+  password      String
+  phone         String
+  avatarUrl     String?
+  role          Role           @default(CLIENT)
+  loyaltyPoints Int            @default(0)
+  lastVisit     DateTime?
+  appointments  Appointment[]
+  notifications Notification[]
+
+  @@map("users")
+}
+
+model Appointment {
+  id          String       @id @default(uuid())
+  date        DateTime
+  serviceType String
+  price       Decimal      @db.Decimal(10, 2)
+  status      Status       @default(SCHEDULED)
+  punctuality Punctuality?
+  notes       String?
+  userId      String
+  createdAt   DateTime     @default(now())
+  user        User         @relation(fields: [userId], references: [id])
+
+  @@map("appointments")
+}
+
+model Notification {
+  id      String   @id @default(uuid())
+  title   String
+  message String
+  read    Boolean  @default(false)
+  sentAt  DateTime @default(now())
+  userId  String
+  user    User     @relation(fields: [userId], references: [id])
+
+  @@map("notifications")
+}
+
+enum Role {
+  ADMIN
+  CLIENT
+}
+
+enum Status {
+  SCHEDULED
+  COMPLETED
+  CANCELED
+  NO_SHOW
+}
+
+enum Punctuality {
+  ON_TIME
+  LATE
+  ABSENT
+}
