@@ -9,11 +9,11 @@ const dadosAgendamentos = [
 
 export default function Dashboard() {
   return (
-    <div className="bg-[#121212] p-4 rounded-lg flex flex-col gap-15">
+    <div className="bg-[#121212] p-4 rounded-lg flex flex-col gap-15 items-center">
       <div>
         <DonutGraphic data={dadosAgendamentos} size={200} thickness={25} />
       </div>
-      <div>
+      <div className="w-full">
         <GraphicLegend />
       </div>
     </div>

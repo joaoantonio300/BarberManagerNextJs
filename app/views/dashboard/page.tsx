@@ -25,7 +25,9 @@ const page = () => {
 
   return (
     <Layout>
-      <div>
+      <div className="w-full">
+        <h1 className="font-bold text-4xl">Dashboard</h1>
+        <p className="text-zinc-400">Visão geral do seu negócio</p>
         <div className="flex flex-row gap-4 mb-4">
           <CardValue
             label="Faturamento"
