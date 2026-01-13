@@ -3,7 +3,6 @@ import {Poppins, Roboto } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers"; 
 
-// Import for primereact styles
 import 'primereact/resources/themes/lara-light-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';

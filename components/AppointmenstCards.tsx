@@ -19,7 +19,7 @@ const AppointmenstCards = ({ nome, horario, servico }: DataForAppointments) => {
         </div>
       </div>
     </div>
-  );
+  ); 
 };
 
 export default AppointmenstCards;

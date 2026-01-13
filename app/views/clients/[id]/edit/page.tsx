@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "@/components/Layout";
-import AppointmentForm from "@/components/agenda/AppointmentForm";
+import ClientForm from "@/components/clients/ClientForm";
 
 async function getData() {
   const clients = [
@@ -40,7 +40,6 @@ async function getData() {
   return { clients, services, professionals };
 }
 
-
 export default async function Page() {
   const data = await getData();
 
@@ -53,8 +52,7 @@ export default async function Page() {
             Preencha os dados abaixo para agendar um serviço.
           </p>
         </div>
-
-        <AppointmentForm 
+        <ClientForm 
             clients={data.clients} 
             services={data.services} 
             professionals={data.professionals} 
