@@ -100,7 +100,7 @@ export default function HeadlessDemo() {
                           </li>
                           <li>
                             <Link
-                              href=""
+                              href="/views/financial"
                               className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
                             >
                               <i className="pi pi-wallet mr-2"></i>
