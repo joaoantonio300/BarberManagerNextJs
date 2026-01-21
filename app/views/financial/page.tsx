@@ -23,8 +23,8 @@ const page = () => {
     <Layout>
       <div className="w-full">
         <div>
-          <h1 className="font-bold text-4xl">Dashboard</h1>
-          <p className="text-zinc-400">Visão geral do seu negócio</p>
+          <h1 className="font-bold text-4xl">Financeiro e Serviços</h1>
+          <p className="text-zinc-400">Gerencie seus custos e serviços</p>
         </div>
         <div className="flex flex-row gap-4 mb-4">
           <CardValue
@@ -65,7 +65,7 @@ const page = () => {
                 />
               </Link>
             </div>
-           <div className="bg-[#121212] p-2 border mt-3 rounded-lg">
+           <div className="bg-[#121212] p-2 mt-3 rounded-lg">
              {servicos?.map((item, i) => (
               <ServicesCards
                 key={i}
