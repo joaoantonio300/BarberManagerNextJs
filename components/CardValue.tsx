@@ -3,7 +3,7 @@ import { PrimeIcons } from "primereact/api";
 
 type CardsProps = {
   label?: string;
-  value?: number;
+  value?: any;
   icon: string;
   increase?: number;
   color: string;

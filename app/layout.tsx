@@ -3,7 +3,6 @@ import {Poppins, Roboto } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers"; 
 
-// Import for primereact styles
 import 'primereact/resources/themes/lara-light-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
@@ -37,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body className={`${poppins.variable} ${roboto.variable}  antialiased`}>
+      <body className={`${poppins.variable} ${roboto.variable}  bg-[#0A0A0A]! antialiased`}>
         <Providers>{children}</Providers>
       </body>
     </html>

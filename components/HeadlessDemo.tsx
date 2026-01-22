@@ -89,14 +89,20 @@ export default function HeadlessDemo() {
                             </Link>
                           </li>
                           <li>
-                            <a className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                            <Link
+                              href="/views/clients"
+                              className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
+                            >
                               <i className="pi pi-users mr-2"></i>
-                              <span className="font-medium">Time</span>
+                              <span className="font-medium">Clientes</span>
                               <Ripple />
-                            </a>
+                            </Link>
                           </li>
                           <li>
-                            <a className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                            <Link
+                              href="/views/financial"
+                              className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
+                            >
                               <i className="pi pi-wallet mr-2"></i>
                               <span className="font-medium">Financeiro</span>
                               <span
@@ -106,7 +112,7 @@ export default function HeadlessDemo() {
                                 3
                               </span>
                               <Ripple />
-                            </a>
+                            </Link>
                           </li>
                         </ul>
                       </li>

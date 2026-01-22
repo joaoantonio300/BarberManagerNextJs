@@ -9,7 +9,7 @@ export default function Layout({ children }: Props){
   return (
     <>
       <HeadlessDemo/>
-        <main className="flex justify-end p-4 4 ml-13.5">{children}</main>
+        <main className="flex justify-end p-4 text-white">{children}</main>
     </>
   );
 }

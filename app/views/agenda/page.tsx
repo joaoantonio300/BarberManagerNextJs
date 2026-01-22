@@ -1,43 +1,96 @@
 import React from "react";
 import Layout from "@/components/Layout";
+import Link from "next/link";
+import DropListCompontent from "@/components/agenda/DropListCompontent";
 
-type Props = {};
+type Appointment = {
+  id: string;
+  professional: string;
+  nome: string;
+  horario: string;
+  servico: string;
+};
 
-const data = [
-  { professional: "João Pedro", nome: "Carlos",  horario: "09:00", servico: "Corte Degradê" },
-  { professional: "João Pedro", nome: "Marcos",  horario: "09:30", servico: "Corte Social" },
-  { professional: "João Pedro", nome: "Lucas",   horario: "10:00", servico: "Barba Completa" },
-  { professional: "João Pedro", nome: "Rafael", horario: "10:30", servico: "Corte + Barba" },
-  { professional: "João Pedro", nome: "André",  horario: "11:00", servico: "Corte Degradê" },
-  { professional: "Joalisson", nome: "Bruno",   horario: "09:00", servico: "Corte Social" },
-  { professional: "Joalisson", nome: "Diego",   horario: "09:30", servico: "Corte Degradê" },
-  { professional: "Joalisson", nome: "Matheus", horario: "10:00", servico: "Barba Desenhada" },
-  { professional: "Joalisson", nome: "Renan",   horario: "10:30", servico: "Corte + Barba" },
-  { professional: "Joalisson", nome: "Gustavo", horario: "11:00", servico: "Corte Social" },
-  { professional: "Lucas Almeida", nome: "Pedro",   horario: "13:00", servico: "Corte Degradê" },
-  { professional: "Lucas Almeida", nome: "Thiago",  horario: "13:30", servico: "Barba Completa" },
-  { professional: "Lucas Almeida", nome: "Henrique",horario: "14:00", servico: "Corte Social" },
-  { professional: "Lucas Almeida", nome: "Eduardo", horario: "14:30", servico: "Corte + Barba" },
-  { professional: "Lucas Almeida", nome: "Igor",    horario: "15:00", servico: "Corte Degradê" },
+
+const initialData: Appointment[] = [
+  {
+    id: "1",
+    professional: "João Barbeiro",
+    nome: "Pedro Silva",
+    horario: "10:00",
+    servico: "Corte + Barba",
+  },
+  {
+    id: "2",
+    professional: "Carlos Barbeiro",
+    nome: "André Santos",
+    horario: "09:00",
+    servico: "Barba",
+  },
+  {
+    id: "3",
+    professional: "Rafael Barbeiro",
+    nome: "Marcos Oliveira",
+    horario: "11:00",
+    servico: "Corte Social",
+  },
+  {
+    id: "4",
+    professional: "João Barbeiro",
+    nome: "Lucas Costa",
+    horario: "14:00",
+    servico: "Corte Degradê",
+  },
+  {
+    id: "5",
+    professional: "Carlos Barbeiro",
+    nome: "Roberto Lima",
+    horario: "15:00",
+    servico: "Corte + Barba",
+  },
+  {
+    id: "6",
+    professional: "Carlos Barbeiro",
+    nome: "Felipe (Encaixe)",
+    horario: "10:30",
+    servico: "Sobrancelha",
+  },
+  {
+    id: "16",
+    professional: "Carlos Emanuel",
+    nome: "Felipe (Encaixe)",
+    horario: "10:30",
+    servico: "Sobrancelha",
+  },
+  {
+    id: "8",
+    professional: "João Zacanlleri",
+    nome: "Felipe (Encaixe)",
+    horario: "10:30",
+    servico: "Sobrancelha",
+  },
 ];
 
-
-const page = (props: Props) => {
+const ScheduleKanban = () => {
   return (
     <Layout>
-      <div>
-        <div>
-          <h1>Agendamentos</h1>
-          <p>Gerenciamento de agendamentos</p>
+      <div className="w-full min-h-screen text-zinc-100 font-sans h-full">
+        <div className="flex justify-between items-center mb-8">
+          <div>
+            <h1 className="font-bold text-4xl">Agenda Semanal</h1>
+            <p className="text-zinc-400">Gerenciamento de fila e barbeiros</p>
+          </div>
+          <Link
+            href="/views/agenda/create"
+            className="flex items-center gap-2 bg-[#d4a873] hover:bg-[#b88e5e] text-black font-semibold px-4 py-2 rounded-lg transition-colors shadow-lg shadow-[#d4a873]/20"
+          >
+            Novo Agendamento
+          </Link>
         </div>
-        <div>
-          {data && data.map((item) => (
-            
-          ))}
-        </div>
+        <DropListCompontent initialData={initialData} />
       </div>
     </Layout>
   );
 };
 
-export default page;
+export default ScheduleKanban;
