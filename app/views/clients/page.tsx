@@ -141,7 +141,7 @@ const page = (props: Props) => {
             <tbody>
               {clients &&
                 clients.map((item, i) => (
-                  <tr>
+                  <tr key={i}>
                     <td className="px-4 py-3 text-left">{item.nome}</td>
                     <td className="px-4 py-3 text-left">{item.phone}</td>
                     <td className="px-4 py-3 text-left">
