@@ -13,65 +13,78 @@ datasource db {
   provider = "postgresql"
 }
 
-
-
 model User {
+  id           String        @id @default(uuid())
+  name         String
+  email        String        @unique
+  password     String
+  phone        String?
+  appointments Appointment[]
+  isActive     Boolean       @default(true)
+
+  @@map("users")
+}
+
+model Client {
   id            String         @id @default(uuid())
   name          String
   email         String         @unique
   password      String
   phone         String
   avatarUrl     String?
-  role          Role           @default(CLIENT)
   loyaltyPoints Int            @default(0)
   lastVisit     DateTime?
   appointments  Appointment[]
   notifications Notification[]
+  isActive      Boolean        @default(true)
 
-  @@map("users")
+  @@map("clients")
+}
+
+model Service {
+  id           String        @id @default(uuid())
+  name         String
+  duration     Int
+  price        Float
+  appointments Appointment[]
+  isActive     Boolean       @default(true)
+
+  @@map("services")
 }
 
 model Appointment {
-  id          String       @id @default(uuid())
-  date        DateTime
-  serviceType String
-  price       Decimal      @db.Decimal(10, 2)
-  status      Status       @default(SCHEDULED)
-  punctuality Punctuality?
-  notes       String?
-  userId      String
-  createdAt   DateTime     @default(now())
-  user        User         @relation(fields: [userId], references: [id])
+  id        String   @id @default(uuid())
+  date      DateTime
+  status    Status   @default(SCHEDULED)
+  createdAt DateTime @default(now())
+  serviceId String
+  service   Service  @relation(fields: [serviceId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  clientId  String
+  client    Client   @relation(fields: [clientId], references: [id])
+  isActive  Boolean  @default(true)
 
   @@map("appointments")
 }
 
 model Notification {
-  id      String   @id @default(uuid())
-  title   String
-  message String
-  read    Boolean  @default(false)
-  sentAt  DateTime @default(now())
-  userId  String
-  user    User     @relation(fields: [userId], references: [id])
+  id       String   @id @default(uuid())
+  title    String
+  message  String
+  read     Boolean  @default(false)
+  sentAt   DateTime @default(now())
+  clientId String
+  client   Client   @relation(fields: [clientId], references: [id])
+  isActive Boolean  @default(true)
 
   @@map("notifications")
-}
-
-enum Role {
-  ADMIN
-  CLIENT
 }
 
 enum Status {
   SCHEDULED
   COMPLETED
+  COMPLETED_LATE
   CANCELED
   NO_SHOW
-}
-
-enum Punctuality {
-  ON_TIME
-  LATE
-  ABSENT
 }

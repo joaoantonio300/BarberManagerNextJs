@@ -19,13 +19,6 @@ export default function LoginPage() {
       }}
     >
       <div className="absolute inset-0 z-0">
-        <Image
-          src="/login-bg.jpg"
-          alt="Barber Shop Background"
-          fill
-          className="object-cover opacity-60 grayscale"
-          priority
-        />
         <div className="absolute inset-0 bg-black/50" />
       </div>
 
@@ -63,7 +56,7 @@ export default function LoginPage() {
           </div>
           <button
             type="submit"
-            className="w-full border border-gray-400/50 hover:bg-white hover:text-black hover:border-white text-white font-bold uppercase tracking-widest text-sm rounded-xl py-3 transition-all duration-300"
+            className="w-full border border-gray-400/50 hover:bg-white hover:text-black! hover:border-white text-white font-bold uppercase tracking-widest text-sm rounded-xl py-3 transition-all duration-300"
           >
             Entrar
           </button>
