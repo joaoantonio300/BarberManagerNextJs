@@ -5,7 +5,7 @@ import ClientForm from "@/components/clients/ClientForm";
  type ClientData = {
   id: string;
   name: string;
-  email: string;
+  password: string;
   phone: string;
 };
 
@@ -17,7 +17,7 @@ export default async function Page() {
     { 
       id: "1",
       name: "Carlos Silva", 
-      email: "carlos@gmail.com",
+      password: "123456",
       phone: "(79) 99999-1234", 
     }
 
