@@ -10,6 +10,8 @@ export class ClientRepository {
         name: true,
         phone: true,
         avatarUrl: true,
+        loyaltyPoints: true,
+        lastVisit: true,
       },
     });
   }

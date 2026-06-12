@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { User, Phone, Save, Lock } from "lucide-react";
 
 export type ClientData = {
-  id: string;
   name: string;
   password: string;
   phone: string;
@@ -12,38 +11,37 @@ export type ClientData = {
 
 type Props = {
   initialData?: ClientData | null;
+  onSubmit: (data: ClientData) => Promise<void>;
 };
 
-export default function ClientForm({ initialData }: Props) {
+export default function Form({ initialData, onSubmit }: Props) {
   const [formData, setFormData] = useState<ClientData>({
-    id: "",
-    name: "",
+    name: initialData?.name ?? "",
+    phone: initialData?.phone ?? "",
     password: "",
-    phone: "",
   });
 
-  useEffect(() => {
-    if (initialData) {
-      setFormData({
-        id: initialData.id,
-        name: initialData.name,
-        password: initialData.password,
-        phone: initialData.phone,
-      });
-    }
-  }, [initialData]);
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-  };
+  }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-  };
+
+    try {
+      setLoading(true);
+      await onSubmit(formData);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="bg-zinc-900/50 rounded-xl border border-zinc-800 overflow-hidden">

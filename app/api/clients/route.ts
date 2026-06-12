@@ -5,7 +5,6 @@ import { ClientRepository } from "@/repository/ClientsRepository";
 import { ClientService } from "@/services/ClientService";
 import { ok, fail } from "@/helpers/http";
 
-// It was created by use directly the functions
 const service = new ClientService();
 const repository = new ClientRepository();
 

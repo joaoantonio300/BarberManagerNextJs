@@ -1,25 +1,24 @@
-import React from "react";
 import Layout from "@/components/Layout";
-import ClientForm from "@/components/clients/ClientForm";
-
- type ClientData = {
-  id: string;
-  name: string;
-  password: string;
-  phone: string;
-};
+import Form from "@/components/clients/Form";
+import { ClientRepository } from "@/repository/ClientsRepository";
 
 
-export default async function Page() {
+export default  function page() {
+  async function handleSubmit(data: any) {
+    const response = await fetch("/api/clients", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
 
-  
-  const initialData: ClientData = 
-    { 
-      id: "1",
-      name: "Carlos Silva", 
-      password: "123456",
-      phone: "(79) 99999-1234", 
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || "Erro ao criar cliente");
     }
+  }
 
   return (
     <Layout>
@@ -30,9 +29,10 @@ export default async function Page() {
             Preencha os dados abaixo para agendar um serviço.
           </p>
         </div>
-        <ClientForm 
-            initialData={initialData} 
-        />
+        <Form 
+          initialData={null} 
+          onSubmit={handleSubmit} 
+        /> 
       </div>
     </Layout>
   );
