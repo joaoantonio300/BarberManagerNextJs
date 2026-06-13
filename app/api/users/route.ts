@@ -1,18 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { CreateUserSchema } from "@/Schemas/CreateUserSchema";
-import { ClientRepository } from "@/repository/ClientsRepository";
-import { ClientService } from "@/services/ClientService";
 import { ok, fail } from "@/helpers/http";
-
-// It was created by use directly the functions
-const service = new ClientService();
-const repository = new ClientRepository();
 
 export async function GET() {
   try {
-    
-    const users = await repository.list();
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        isActive: true,
+      },
+    });
 
     return ok(users);
   } catch (error) {
@@ -33,15 +34,21 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const user = await service.create(parsed.data);
+    const userData = parsed.data;
+    
+    const user = await prisma.user.create({
+      data: userData,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+      }
+    });
+
     return ok(user, 201);
 
   } catch (error: any) {
-    if (error.message === "NUMBER_ALREADY_EXISTS") {
-      return fail("Numero já está em uso", 409);
-    }
-
     return fail("Erro interno ao criar usuário", 500);
   }
 }
-

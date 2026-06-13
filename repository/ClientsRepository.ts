@@ -41,6 +41,10 @@ export class ClientRepository {
     });
   }
 
+  delete(id: string) {
+    return prisma.client.delete({ where: { id } });
+  }
+
   findById(id: string) {
     return prisma.client.findUnique({ where: { id } });
   }

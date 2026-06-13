@@ -16,16 +16,16 @@ export async function PUT(
     const { id } = await params;
 
     const body = await req.json();
+    const { avatarUrl, ...updateData } = body;
 
     const updateUser = await prisma.user.update({
       where: { id: String(id) },
-      data: body,
+      data: updateData,
       select: {
         id: true,
         name: true,
         email: true,
         phone: true,
-        avatarUrl: true,
       },
     });
 
