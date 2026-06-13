@@ -1,93 +1,70 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { User, Mail, Phone, Save, Hash } from "lucide-react";
+import { User, Phone, Save, Lock } from "lucide-react";
 
 export type ClientData = {
-  id: string;
   name: string;
-  email: string;
+  password: string;
   phone: string;
 };
 
 type Props = {
   initialData?: ClientData | null;
+  onSubmit: (data: ClientData) => Promise<void>;
 };
 
-export default function ClientForm({ initialData }: Props) {
+export default function Form({ initialData, onSubmit }: Props) {
   const [formData, setFormData] = useState<ClientData>({
-    id: "",
-    name: "",
-    email: "",
-    phone: "",
+    name: initialData?.name ?? "",
+    phone: initialData?.phone ?? "",
+    password: "",
   });
 
-  useEffect(() => {
-    if (initialData) {
-      setFormData({
-        id: initialData.id,
-        name: initialData.name,
-        email: initialData.email,
-        phone: initialData.phone,
-      });
-    }
-  }, [initialData]);
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-  };
+  }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-  };
+
+    try {
+      setLoading(true);
+      await onSubmit(formData);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="bg-zinc-900/50 rounded-xl border border-zinc-800 overflow-hidden">
-      <div className="p-6 border-b border-zinc-800">
-        <h2 className="text-zinc-100 font-bold text-lg flex items-center gap-2">
-          <User className="text-[#AA612C]" size={20} />
-          {initialData ? "Editar Cliente" : "Novo Cliente"}
-        </h2>
-      </div>
-
       <form onSubmit={handleSubmit} className="p-6 md:p-8 flex flex-col gap-6">
-        <div className="flex flex-col gap-2">
-          <label className="flex items-center gap-2 text-zinc-300 font-medium">
-            <User size={18} className="text-[#AA612C]" />
-            <span>Nome Completo</span>
-          </label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Ex: João da Silva"
-            className="w-full bg-zinc-950 border border-zinc-800 text-zinc-100 text-sm rounded-lg focus:ring-1 focus:ring-[#AA612C] focus:border-[#AA612C] block p-3 outline-none transition-all placeholder:text-zinc-600"
-            required
-          />
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 w-full">
             <label className="flex items-center gap-2 text-zinc-300 font-medium">
-              <Mail size={18} className="text-[#AA612C]" />
-              <span>Email</span>
+              <User size={18} className="text-[#AA612C]" />
+              <span>Nome Completo</span>
             </label>
             <input
-              type="email"
-              name="email"
-              value={formData.email}
+              type="text"
+              name="name"
+              value={formData.name}
               onChange={handleChange}
-              placeholder="cliente@email.com"
+              placeholder="Ex: João da Silva"
               className="w-full bg-zinc-950 border border-zinc-800 text-zinc-100 text-sm rounded-lg focus:ring-1 focus:ring-[#AA612C] focus:border-[#AA612C] block p-3 outline-none transition-all placeholder:text-zinc-600"
               required
             />
           </div>
+        </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col gap-2">
             <label className="flex items-center gap-2 text-zinc-300 font-medium">
               <Phone size={18} className="text-[#AA612C]" />
@@ -99,6 +76,22 @@ export default function ClientForm({ initialData }: Props) {
               value={formData.phone}
               onChange={handleChange}
               placeholder="(00) 00000-0000"
+              className="w-full bg-zinc-950 border border-zinc-800 text-zinc-100 text-sm rounded-lg focus:ring-1 focus:ring-[#AA612C] focus:border-[#AA612C] block p-3 outline-none transition-all placeholder:text-zinc-600"
+              required
+            />
+          </div>
+
+          <div className="flex flex-col gap-2 ">
+            <label className="flex items-center gap-2 text-zinc-300 font-medium">
+              <Lock size={18} className="text-[#AA612C]" />
+              <span>Senha</span>
+            </label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="*********"
               className="w-full bg-zinc-950 border border-zinc-800 text-zinc-100 text-sm rounded-lg focus:ring-1 focus:ring-[#AA612C] focus:border-[#AA612C] block p-3 outline-none transition-all placeholder:text-zinc-600"
               required
             />

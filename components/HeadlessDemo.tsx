@@ -6,10 +6,12 @@ import { Avatar } from "primereact/avatar";
 import { Ripple } from "primereact/ripple";
 import { StyleClass } from "primereact/styleclass";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function HeadlessDemo() {
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const btnRef1 = useRef(null);
+  const pathname = usePathname();
 
   return (
     <div>
@@ -71,7 +73,12 @@ export default function HeadlessDemo() {
                           <li>
                             <Link
                               href="/views/dashboard"
-                              className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
+                              className={`p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full
+                              ${
+                                pathname === "/views/dashboard"
+                                  ? "border rounded-3xl! text-white"
+                                  : "text-700 hover:surface-100"
+                              }`}
                             >
                               <i className="pi pi-home mr-2"></i>
                               <span className="font-medium">Dashboard</span>
@@ -81,7 +88,12 @@ export default function HeadlessDemo() {
                           <li>
                             <Link
                               href="/views/agenda"
-                              className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
+                              className={`p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full
+                              ${
+                                pathname === "/views/agenda"
+                                  ? "border rounded-3xl! text-white"
+                                  : "text-700 hover:surface-100"
+                              }`}
                             >
                               <i className="pi pi-calendar-plus mr-2"></i>
                               <span className="font-medium">Agenda</span>
@@ -91,7 +103,12 @@ export default function HeadlessDemo() {
                           <li>
                             <Link
                               href="/views/clients"
-                              className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
+                              className={`p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full
+                              ${
+                                pathname === "/views/clients"
+                                  ? "border rounded-3xl! text-white"
+                                  : "text-700 hover:surface-100"
+                              }`}
                             >
                               <i className="pi pi-users mr-2"></i>
                               <span className="font-medium">Clientes</span>
@@ -101,16 +118,30 @@ export default function HeadlessDemo() {
                           <li>
                             <Link
                               href="/views/financial"
-                              className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
+                              className={`p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full
+                              ${
+                                pathname === "/views/financial"
+                                  ? "border rounded-3xl! text-white"
+                                  : "text-700 hover:surface-100"
+                              }`}
                             >
                               <i className="pi pi-wallet mr-2"></i>
                               <span className="font-medium">Financeiro</span>
-                              <span
-                                className="inline-flex align-items-center justify-content-center ml-auto bg-blue-500 text-0 border-circle"
-                                style={{ minWidth: "1.5rem", height: "1.5rem" }}
-                              >
-                                3
-                              </span>
+                              <Ripple />
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              href="/views/reports"
+                              className={`p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full
+                              ${
+                                pathname === "/views/reports"
+                                  ? "border rounded-3xl! text-white"
+                                  : "text-700 hover:surface-100"
+                              }`}
+                            >
+                              <i className="pi pi-file mr-2"></i>
+                              <span className="font-medium">Relatorios</span>
                               <Ripple />
                             </Link>
                           </li>
