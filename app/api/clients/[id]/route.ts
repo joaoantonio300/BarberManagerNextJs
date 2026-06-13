@@ -33,3 +33,29 @@ export async function PUT(
 
   }
 }
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+
+    if (id == null) {
+      return fail("ID do cliente é obrigatório", 400);
+    }
+
+    const client = await repository.findById(id);
+
+    if(!client) {
+      return fail("Cliente não encontrado", 404);
+    }
+
+    await repository.delete(id);
+
+    return ok("Cliente excluído com sucesso");
+
+  } catch (error: any) {
+    return fail("Erro interno ao excluir cliente", 500);
+  }
+}

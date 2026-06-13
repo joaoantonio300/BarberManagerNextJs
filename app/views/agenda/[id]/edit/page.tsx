@@ -3,10 +3,9 @@ import Layout from "@/components/Layout";
 import AppointmentForm from "@/components/agenda/AppointmentForm";
 
 async function getData() {
-
-  const people = [
-    { name: "Carlos", code: "CAR" },
-    { name: "Marcos", code: "MAR" },
+  const clients = [
+    { nome: "Carlos", phone: "11999990000", loyaltyPoints: 10, lastVisit: "2023-12-10" },
+    { nome: "Marcos", phone: "11988887777", loyaltyPoints: 5, lastVisit: "2023-12-11" },
   ];
   const services = [
     { name: "Corte de Cabelo", code: "COR" },
@@ -17,7 +16,7 @@ async function getData() {
     { name: "Doutor Tesoura", code: "P2" },
   ];
 
-  return { people, services, professionals };
+  return { clients, services, professionals };
 }
 
 export default async function Page() {
@@ -34,7 +33,7 @@ export default async function Page() {
         </div>
 
         <AppointmentForm 
-            people={data.people} 
+            clients={data.clients} 
             services={data.services} 
             professionals={data.professionals} 
         />
