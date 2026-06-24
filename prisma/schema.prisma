@@ -14,19 +14,23 @@ datasource db {
 }
 
 model User {
-  id           String        @id @default(uuid())
+  id           Int           @id @default(autoincrement())
   name         String
   email        String        @unique
   password     String
   phone        String?
   appointments Appointment[]
   isActive     Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  createdBy    String?
+  updatedBy    String?
 
   @@map("users")
 }
 
 model Client {
-  id            String         @id @default(uuid())
+  id            Int            @id @default(autoincrement())
   name          String
   password      String
   phone         String         @unique
@@ -36,46 +40,61 @@ model Client {
   appointments  Appointment[]
   notifications Notification[]
   isActive      Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  createdBy     String?
+  updatedBy     String?
 
   @@map("clients")
 }
 
 model Service {
-  id           String        @id @default(uuid())
+  id           Int           @id @default(autoincrement())
   name         String
   duration     Int
   price        Float
   appointments Appointment[]
   isActive     Boolean       @default(true)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  createdBy    String?
+  updatedBy    String?
 
   @@map("services")
 }
 
 model Appointment {
-  id        String   @id @default(uuid())
+  id        Int      @id @default(autoincrement())
   date      DateTime
   status    Status   @default(SCHEDULED)
   createdAt DateTime @default(now())
-  serviceId String
+  updatedAt DateTime @updatedAt
+  serviceId Int
   service   Service  @relation(fields: [serviceId], references: [id])
-  userId    String
+  userId    Int
   user      User     @relation(fields: [userId], references: [id])
-  clientId  String
+  clientId  Int
   client    Client   @relation(fields: [clientId], references: [id])
   isActive  Boolean  @default(true)
+  createdBy String?
+  updatedBy String?
 
   @@map("appointments")
 }
 
 model Notification {
-  id       String   @id @default(uuid())
-  title    String
-  message  String
-  read     Boolean  @default(false)
-  sentAt   DateTime @default(now())
-  clientId String
-  client   Client   @relation(fields: [clientId], references: [id])
-  isActive Boolean  @default(true)
+  id        Int      @id @default(autoincrement())
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  sentAt    DateTime @default(now())
+  clientId  Int
+  client    Client   @relation(fields: [clientId], references: [id])
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  createdBy String?
+  updatedBy String?
 
   @@map("notifications")
 }
