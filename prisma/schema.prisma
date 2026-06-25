@@ -23,8 +23,8 @@ model User {
   isActive     Boolean       @default(true)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
-  createdBy    String?
-  updatedBy    String?
+  createdBy    Int?
+  updatedBy    Int?
 
   @@map("users")
 }
@@ -42,8 +42,8 @@ model Client {
   isActive      Boolean        @default(true)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
-  createdBy     String?
-  updatedBy     String?
+  createdBy     Int?
+  updatedBy     Int?
 
   @@map("clients")
 }
@@ -52,13 +52,13 @@ model Service {
   id           Int           @id @default(autoincrement())
   name         String
   duration     Int
-  price        Float
+  price Decimal @db.Decimal(10, 2)
   appointments Appointment[]
   isActive     Boolean       @default(true)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
-  createdBy    String?
-  updatedBy    String?
+  createdBy    Int?
+  updatedBy    Int?
 
   @@map("services")
 }
@@ -76,8 +76,8 @@ model Appointment {
   clientId  Int
   client    Client   @relation(fields: [clientId], references: [id])
   isActive  Boolean  @default(true)
-  createdBy String?
-  updatedBy String?
+  createdBy Int?
+  updatedBy Int?
 
   @@map("appointments")
 }
@@ -93,8 +93,8 @@ model Notification {
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  createdBy String?
-  updatedBy String?
+  createdBy Int?
+  updatedBy Int?
 
   @@map("notifications")
 }

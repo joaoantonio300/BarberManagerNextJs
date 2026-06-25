@@ -45,7 +45,7 @@ export class AppointmentsRepository {
     });
   }
 
-  update(id: string, data: UpdateAppointmentDTO) {
+  update(id: number, data: UpdateAppointmentDTO) {
     return prisma.appointment.update({
       where: { id },
       data,
@@ -64,13 +64,13 @@ export class AppointmentsRepository {
     });
   }
 
-  delete(id: string) {
+  delete(id: number) {
     return prisma.appointment.delete({
       where: { id },
     });
   }
 
-  findById(id: string) {
+  findById(id: number) {
     return prisma.appointment.findUnique({
       where: { id },
       include: {

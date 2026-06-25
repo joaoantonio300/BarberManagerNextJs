@@ -12,6 +12,15 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
+    if (id == null) {
+      return fail("ID do agendamento é obrigatório", 400);
+    }
+
+    const idNumber = Number(id);
+    if (isNaN(idNumber)) {
+      return fail("ID do agendamento inválido", 400);
+    }
+
     const body = await req.json();
     const parsed = UpdateAppointmentSchema.safeParse(body);
 
@@ -19,11 +28,7 @@ export async function PUT(
       return fail("Dados inválidos", 400, parsed.error.flatten().fieldErrors);
     }
 
-    if (id == null) {
-      return fail("ID do agendamento é obrigatório", 400);
-    }
-
-    const updated = await repository.update(id, parsed.data);
+    const updated = await repository.update(idNumber, parsed.data);
     return ok(updated);
 
   } catch (error: any) {
@@ -42,7 +47,12 @@ export async function DELETE(
       return fail("ID do agendamento é obrigatório", 400);
     }
 
-    await repository.delete(id);
+    const idNumber = Number(id);
+    if (isNaN(idNumber)) {
+      return fail("ID do agendamento inválido", 400);
+    }
+
+    await repository.delete(idNumber);
     return ok("Agendamento excluído com sucesso");
 
   } catch (error: any) {
@@ -63,6 +73,11 @@ export async function PATCH(
       return fail("ID do agendamento é obrigatório", 400);
     }
 
+    const idNumber = Number(id);
+    if (isNaN(idNumber)) {
+      return fail("ID do agendamento inválido", 400);
+    }
+
     if (!professional) {
       return fail("Profissional é obrigatório", 400);
     }
@@ -80,7 +95,7 @@ export async function PATCH(
         return fail(`Profissional '${professional}' não encontrado`, 404);
       }
 
-    const updated = await repository.update(id, {
+    const updated = await repository.update(idNumber, {
       userId: user.id
     });
 

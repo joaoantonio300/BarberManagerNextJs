@@ -5,7 +5,7 @@ import { Prisma } from "@/app/generated/prisma/client";
 
 export async function GET(req: NextRequest) {
   try {
-  } catch (error) {}
+  } catch (error) { }
 }
 
 export async function PUT(
@@ -13,13 +13,23 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+
     const { id } = await params;
+
+    if (id == null) {
+      return NextResponse.json({ error: "ID do usuário é obrigatório" }, { status: 400 });
+    }
+
+    const idNumber = Number(id);
+    if (isNaN(idNumber)) {
+      return NextResponse.json({ error: "ID do usuário inválido" }, { status: 400 });
+    }
 
     const body = await req.json();
     const { avatarUrl, ...updateData } = body;
 
     const updateUser = await prisma.user.update({
-      where: { id: String(id) },
+      where: { id: idNumber },
       data: updateData,
       select: {
         id: true,
@@ -45,9 +55,17 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
+    if (id == null) {
+      return NextResponse.json({ error: "ID do usuário é obrigatório" }, { status: 400 });
+    }
+
+    const idNumber = Number(id);
+    if (isNaN(idNumber)) {
+      return NextResponse.json({ error: "ID do usuário inválido" }, { status: 400 });
+    }
 
     await prisma.user.delete({
-      where: { id: String(id) },
+      where: { id: idNumber },
     });
 
     return NextResponse.json(

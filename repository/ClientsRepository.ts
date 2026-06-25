@@ -28,7 +28,7 @@ export class ClientRepository {
     });
   }
 
-  update(id: string, data: UpdateClientDTO) {
+  update(id: number, data: UpdateClientDTO) {
     return prisma.client.update({
       where: { id },
       data,
@@ -41,11 +41,11 @@ export class ClientRepository {
     });
   }
 
-  delete(id: string) {
+  delete(id: number) {
     return prisma.client.delete({ where: { id } });
   }
 
-  findById(id: string) {
+  findById(id: number) {
     return prisma.client.findUnique({ where: { id } });
   }
 

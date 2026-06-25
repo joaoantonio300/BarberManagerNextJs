@@ -8,10 +8,19 @@ const repository = new ClientRepository();
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params } : { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
+    if (id == null) {
+      return fail("ID do cliente é obrigatório", 400);
+    }
+
+    const idNumber = Number(id);
+    if (isNaN(idNumber)) {
+      return fail("ID do cliente inválido", 400);
+    }
+
     const body = await req.json();
     const parsed = UpdateClientSchema.safeParse(body);
 
@@ -19,11 +28,7 @@ export async function PUT(
       return fail("Dados inválidos", 400, parsed.error.flatten().fieldErrors);
     }
 
-    if (id == null) {
-      return fail("ID do cliente é obrigatório", 400);
-    }
-
-    const updateClient = await repository.update(id, parsed.data);
+    const updateClient = await repository.update(idNumber, parsed.data);
 
     return ok(updateClient);
 
@@ -45,13 +50,18 @@ export async function DELETE(
       return fail("ID do cliente é obrigatório", 400);
     }
 
-    const client = await repository.findById(id);
+    const idNumber = Number(id);
+    if (isNaN(idNumber)) {
+      return fail("ID do cliente inválido", 400);
+    }
+
+    const client = await repository.findById(idNumber);
 
     if(!client) {
       return fail("Cliente não encontrado", 404);
     }
 
-    await repository.delete(id);
+    await repository.delete(idNumber);
 
     return ok("Cliente excluído com sucesso");
 
