@@ -7,9 +7,5 @@ export const CreateClientSchema = z.object({
    avatarUrl: z.string("Foto inválida").optional(),
 });
 
-
 export type CreateClientDTO = z.infer<typeof CreateClientSchema>;
 
-// i can use nao createuserdto.parse(data) 
-// the parsesafe can show me the message of sucessfuly or error
-// i can use safeParseAsync too in the case of async validation

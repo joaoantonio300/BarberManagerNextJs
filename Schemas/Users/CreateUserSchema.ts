@@ -11,6 +11,6 @@ export const CreateUserSchema = z.object({
 
 export type CreateUserDTO = z.infer<typeof CreateUserSchema>;
 
-// i can use nao createuserdto.parse(data) 
+// i can use nao createuserdto.parse(data)
 // the parsesafe can show me the message of sucessfuly or error
 // i can use safeParseAsync too in the case of async validation

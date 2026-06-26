@@ -1,20 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
-import { CreateUserSchema } from "@/Schemas/CreateUserSchema";
+import { CreateUserSchema } from "@/Schemas/Users/CreateUserSchema";
 import { ok, fail, validationFail } from "@/helpers/http";
+import { UsersRepository } from "@/repository/UsersRepository";
+
+const repository = new UsersRepository();
 
 export async function GET() {
   try {
-    const users = await prisma.user.findMany({
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        phone: true,
-        isActive: true,
-      },
-    });
-
+    const users = await repository.list();
     return ok(users);
   } catch (error) {
     return fail("Erro ao buscar usuários", 500);
@@ -32,15 +25,12 @@ export async function POST(req: NextRequest) {
 
     const userData = parsed.data;
     
-    const user = await prisma.user.create({
-      data: userData,
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        phone: true,
-      }
-    });
+    const existingEmail = await repository.findByEmail(userData.email);
+    if (existingEmail) {
+      return fail("Email já está em uso", 409);
+    }
+
+    const user = await repository.create(userData);
 
     return ok(user, 201);
 

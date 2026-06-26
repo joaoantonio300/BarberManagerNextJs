@@ -1,54 +1,45 @@
-import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
-import { CreateUserSchema } from "@/Schemas/CreateUserSchema";
-import { Prisma } from "@/app/generated/prisma/client";
+import { NextRequest } from "next/server";
+import { UpdateUserSchema } from "@/Schemas/Users/UpdateUserSchema";
+import { UsersRepository } from "@/repository/UsersRepository";
+import { ok, fail, validationFail } from "@/helpers/http";
 
-export async function GET(req: NextRequest) {
-  try {
-  } catch (error) { }
-}
+const repository = new UsersRepository();
 
 export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-
     const { id } = await params;
-
     if (id == null) {
-      return NextResponse.json({ error: "ID do usuário é obrigatório" }, { status: 400 });
+      return fail("ID do usuário é obrigatório", 400);
     }
 
     const idNumber = Number(id);
     if (isNaN(idNumber)) {
-      return NextResponse.json({ error: "ID do usuário inválido" }, { status: 400 });
+      return fail("ID do usuário inválido", 400);
     }
 
     const body = await req.json();
-    const { avatarUrl, ...updateData } = body;
+    const parsed = UpdateUserSchema.safeParse(body);
 
-    const updateUser = await prisma.user.update({
-      where: { id: idNumber },
-      data: updateData,
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        phone: true,
-      },
-    });
+    if (!parsed.success) {
+      return validationFail(parsed.error);
+    }
 
-    return NextResponse.json(updateUser, { status: 201 });
+    const user = await repository.findById(idNumber);
+    if (!user) {
+      return fail("Usuário não encontrado", 404);
+    }
+
+    const updateUser = await repository.update(idNumber, parsed.data);
+    return ok(updateUser);
+
   } catch (error) {
-    return NextResponse.json(
-      { error: "Ocorrreu um erro ao atualizar o usuário" },
-      { status: 500 }
-    );
+    return fail("Erro interno ao atualizar usuário", 500);
   }
 }
 
-// ------------------
 export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -56,26 +47,23 @@ export async function DELETE(
   try {
     const { id } = await params;
     if (id == null) {
-      return NextResponse.json({ error: "ID do usuário é obrigatório" }, { status: 400 });
+      return fail("ID do usuário é obrigatório", 400);
     }
 
     const idNumber = Number(id);
     if (isNaN(idNumber)) {
-      return NextResponse.json({ error: "ID do usuário inválido" }, { status: 400 });
+      return fail("ID do usuário inválido", 400);
     }
 
-    await prisma.user.delete({
-      where: { id: idNumber },
-    });
+    const user = await repository.findById(idNumber);
+    if (!user) {
+      return fail("Usuário não encontrado", 404);
+    }
 
-    return NextResponse.json(
-      { message: "Usuário deletado com sucesso" },
-      { status: 200 }
-    );
+    await repository.delete(idNumber);
+    return ok("Usuário deletado com sucesso");
+
   } catch (error) {
-    return NextResponse.json(
-      { error: "Ocorrreu um erro ao deletar o usuário" },
-      { status: 500 }
-    );
+    return fail("Erro interno ao deletar usuário", 500);
   }
 }
