@@ -2,13 +2,13 @@ import { NextRequest } from "next/server";
 import prisma from "@/lib/prisma";
 import { UpdateAppointmentSchema } from "@/Schemas/Appointments/UpdateAppointmentSchema";
 import { AppointmentsRepository } from "@/repository/AppointmentsRepository";
-import { ok, fail } from "@/helpers/http";
+import { ok, fail, validationFail } from "@/helpers/http";
 
 const repository = new AppointmentsRepository();
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params } : { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
@@ -25,7 +25,7 @@ export async function PUT(
     const parsed = UpdateAppointmentSchema.safeParse(body);
 
     if (!parsed.success) {
-      return fail("Dados inválidos", 400, parsed.error.flatten().fieldErrors);
+      return validationFail(parsed.error);
     }
 
     const updated = await repository.update(idNumber, parsed.data);
@@ -82,18 +82,18 @@ export async function PATCH(
       return fail("Profissional é obrigatório", 400);
     }
 
-      const user = await prisma.user.findFirst({
-        where: {
-          name: {
-            equals: professional,
-            mode: "insensitive"
-          }
+    const user = await prisma.user.findFirst({
+      where: {
+        name: {
+          equals: professional,
+          mode: "insensitive"
         }
-      });
-
-      if (!user) {
-        return fail(`Profissional '${professional}' não encontrado`, 404);
       }
+    });
+
+    if (!user) {
+      return fail(`Profissional '${professional}' não encontrado`, 404);
+    }
 
     const updated = await repository.update(idNumber, {
       userId: user.id

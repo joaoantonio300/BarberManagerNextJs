@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import { CreateClientSchema } from "@/Schemas/Clients/CreateClientSchema";
 import { ClientRepository } from "@/repository/ClientsRepository";
 import { ClientService } from "@/services/ClientService";
-import { ok, fail } from "@/helpers/http";
+import { ok, fail, validationFail } from "@/helpers/http";
 
 const service = new ClientService();
 const repository = new ClientRepository();
@@ -28,11 +28,7 @@ export async function POST(req: NextRequest) {
     const parsed = CreateClientSchema.safeParse(body);
 
     if (!parsed.success) {
-      return fail(
-        "Dados inválidos",
-        400,
-        parsed.error.flatten().fieldErrors
-      );
+      return validationFail(parsed.error);
     }
 
     const client = await service.create(parsed.data);

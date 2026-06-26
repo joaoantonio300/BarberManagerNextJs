@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { UpdateClientSchema } from "@/Schemas/Clients/UpdateClientSchema";
 import { ClientRepository } from "@/repository/ClientsRepository";
-import { ok, fail } from "@/helpers/http";
+import { ok, fail, validationFail } from "@/helpers/http";
 
 const repository = new ClientRepository();
 
@@ -25,7 +25,7 @@ export async function PUT(
     const parsed = UpdateClientSchema.safeParse(body);
 
     if (!parsed.success) {
-      return fail("Dados inválidos", 400, parsed.error.flatten().fieldErrors);
+      return validationFail(parsed.error);
     }
 
     const updateClient = await repository.update(idNumber, parsed.data);

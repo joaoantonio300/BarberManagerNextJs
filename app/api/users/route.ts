@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { CreateUserSchema } from "@/Schemas/CreateUserSchema";
-import { ok, fail } from "@/helpers/http";
+import { ok, fail, validationFail } from "@/helpers/http";
 
 export async function GET() {
   try {
@@ -27,11 +27,7 @@ export async function POST(req: NextRequest) {
     const parsed = CreateUserSchema.safeParse(body);
 
     if (!parsed.success) {
-      return fail(
-        "Dados inválidos",
-        400,
-        parsed.error.flatten().fieldErrors
-      );
+      return validationFail(parsed.error);
     }
 
     const userData = parsed.data;
