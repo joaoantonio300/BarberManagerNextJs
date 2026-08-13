@@ -3,11 +3,37 @@ services:
     image: postgres:16
     container_name: banco-de-dados
     environment:
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 123456
       POSTGRES_DB: barber
     ports:
       - "5432:5432"
     volumes:
       - banco-de-dados:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d barber"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: barber-app
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "postgresql://postgres:123456@banco-de-dados:5432/barber?schema=public"
+      JWT_SECRET: "sua_chave_secreta_aqui"
+      NODE_ENV: "development"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+
 volumes:
   banco-de-dados:
