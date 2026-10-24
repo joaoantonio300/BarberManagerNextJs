@@ -9,10 +9,12 @@ RUN npm install
 # Copy project files
 COPY . .
 
-# Make entrypoint script executable
-RUN chmod +x ./docker-entrypoint.sh
+# Keep the entrypoint outside /app so the development bind mount cannot replace it.
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN sed -i 's/\r$//' /usr/local/bin/docker-entrypoint.sh \
+    && chmod +x /usr/local/bin/docker-entrypoint.sh
 
 EXPOSE 3000
 
-ENTRYPOINT ["/app/docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["npm", "run", "dev"]
