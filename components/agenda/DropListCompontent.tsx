@@ -87,11 +87,12 @@ const DropListCompontenT = ({ initialData }: Props) => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="flex gap-6 overflow-x-auto pb-4 items-start">
+      <div className="w-full min-h-0 flex-1 overflow-x-auto pb-4">
+        <div className="flex min-h-full w-max min-w-full items-stretch gap-6">
         {Object.keys(columns).map((professionalId) => (
           <div
             key={professionalId}
-            className="min-w-[320px] flex-1 flex flex-col bg-[#121212] rounded-xl p-4 "
+            className="box-border flex w-[320px] min-w-[320px] flex-none flex-col rounded-xl bg-[#121212] p-4"
           >
             <div className="flex justify-between items-center mb-4 border-b border-zinc-800 pb-3">
               <h3 className="font-bold text-lg text-zinc-200">
@@ -171,6 +172,7 @@ const DropListCompontenT = ({ initialData }: Props) => {
             </Droppable>
           </div>
         ))}
+        </div>
       </div>
     </DragDropContext>
   );

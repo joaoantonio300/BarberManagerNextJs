@@ -74,8 +74,8 @@ const initialData: Appointment[] = [
 const ScheduleKanban = () => {
   return (
     <Layout>
-      <div className="w-full min-h-screen text-zinc-100 font-sans h-full">
-        <div className="flex justify-between items-center mb-8">
+      <div className="flex w-full min-h-0 flex-1 flex-col text-zinc-100 font-sans">
+        <div className="flex justify-between items-center">
           <div>
             <h1 className="font-bold text-4xl">Agenda Semanal</h1>
             <p className="text-zinc-400">Gerenciamento de fila e barbeiros</p>
@@ -87,7 +87,7 @@ const ScheduleKanban = () => {
             Novo Agendamento
           </Link>
         </div>
-        <DropListCompontent initialData={initialData} />
+       <DropListCompontent initialData={initialData} />
       </div>
     </Layout>
   );
